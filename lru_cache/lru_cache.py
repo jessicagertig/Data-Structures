@@ -25,9 +25,9 @@ class LRUCache:
     """
     def get(self, key):
         if key in self.storage_dict:
-            node = self.storage_dict[key].value
+            node = self.storage_dict[key]
             self.dll.move_to_front(node)
-            return node
+            return node.value
         else:
             return None
         
@@ -44,16 +44,23 @@ class LRUCache:
     """
 
     def set(self, key, value):
-        if self.current_size < self.limit:
+        if key in self.storage_dict:
+            self.dll.move_to_front(self.storage_dict[key])
+            self.dll.head.value = value
+            self.storage_dict[key] = self.dll.head
+        elif self.current_size < self.limit:
             self.current_size += 1
             self.dll.add_to_head(value)
             self.storage_dict[key] = self.dll.head
         elif self.current_size == self.limit:
+            prev_tail = self.dll.tail
             self.dll.remove_from_tail()
             self.dll.add_to_head(value)
             self.storage_dict[key] = self.dll.head
             #TODO remove from dictionary
-
+            last_key = [k for k,v in self.storage_dict.items() if v == prev_tail]
+            last_key = last_key[0]
+            self.storage_dict.pop(last_key)
     #is limit below max?
     # is limit over max? 
 
