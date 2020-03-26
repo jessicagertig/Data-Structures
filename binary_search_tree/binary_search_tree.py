@@ -11,17 +11,82 @@ class BinarySearchTree:
         self.right = None
 
     # Insert the given value into the tree
+    # Insert:
+    # check if empty
+    # if empty put node here/at root
+    # else
+    # if new < node.value
+    #    leftnode.insert value
+    # if >= 
+    #    rightnode.insertvalue
+
+    #### self.left is the left node and you can call self.left.method
+    #### self.right is the right node and you can call self.right.method
+    #### The above are true if self.left and self.right are not None, if either is None, then we must create a new BST using BinarySearchTree(value)
+    
     def insert(self, value):
-        pass
+        print(self.value)
+        if self.value == None:
+            self.value = value
+            return
+        elif value >= self.value:
+            if self.right == None:
+                new_node = BinarySearchTree(value)
+                self.right = new_node
+                return
+            else:
+                self.right.insert(value)
+        elif value < self.value:
+            if self.left == None:
+                new_node = BinarySearchTree(value)
+                self.left = new_node
+                return
+            else: 
+                self.left.insert(value)
+            
 
     # Return True if the tree contains the value
     # False if it does not
     def contains(self, target):
-        pass
+        # find:
+        # if node is none
+        # return false
+        # if node.value == findvalue
+        #     return true
+        # else
+        #     if find <  node.value
+        #         find on  left node
+        #     else
+        #         find on right node
+
+        if self == None:
+            return False
+        elif self.value == target:
+            return True
+        elif target > self.value:
+                if self.right == None: 
+                    return False
+                else:
+                    return self.right.contains(target)
+        else: ##remaining case target < self.value
+            if self.left == None: 
+                return False
+            else:
+                return self.left.contains(target)
 
     # Return the maximum value found in the tree
     def get_max(self):
         pass
+        # get_max:
+        # if there's a right:
+        # get max on  right
+        # else
+        #return node.value
+
+        if self.right == None:
+            return self.value
+        else:
+            return self.right.get_max()
 
     # Call the function `cb` on the value of each node
     # You may use a recursive or iterative approach
@@ -55,3 +120,9 @@ class BinarySearchTree:
     # Print Post-order recursive DFT
     def post_order_dft(self, node):
         pass
+
+example = BinarySearchTree(None)
+example.insert(5)
+example.insert(7)
+example.insert(3)
+example.insert(8)
