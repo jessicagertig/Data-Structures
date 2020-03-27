@@ -87,6 +87,11 @@ class BinarySearchTree:
         else:
             return self.right.get_max()
 
+        # if self.right:
+        #     return self.right.get_max()
+        # else:
+        #     return self.value
+
     # Call the function `cb` on the value of each node
     # You may use a recursive or iterative approach
 
@@ -99,24 +104,17 @@ class BinarySearchTree:
             self.right.for_each(cb)  
 
     # DAY 2 Project -----------------------
-    def get_min(self):
-        if self.left == None:
-            return self.value
-        else:
-            return self.left.get_min()
 
     # Print all the values in order from low to high
     # Hint:  Use a recursive, depth first traversal
     def in_order_print(self, node):
-        # stack = Stack()
-        # if self.value == None:
-        #     return
-        # else:
-        #     stack.push(self.value)
-        pass
-
-
-   
+        if node == None:
+            return
+        if node.left != None:
+            self.in_order_print(node.left)
+        print(node.value)
+        if node.right != None:
+            self.in_order_print(node.right)
 
     # Print the value of every node, starting with the given node,
     # in an iterative breadth first traversal
@@ -134,9 +132,6 @@ class BinarySearchTree:
                 if node.right != None:
                     q.enqueue(node.right)
     
-
-
-
     # Print the value of every node, starting with the given node,
     # in an iterative depth first traversal
     def dft_print(self, node):
@@ -173,4 +168,4 @@ example.insert(6)
 example.insert(8)
 example.insert(2)
 
-example.dft_print(example)
+example.in_order_print(example)
