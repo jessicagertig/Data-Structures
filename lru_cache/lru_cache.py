@@ -1,3 +1,7 @@
+import sys
+sys.path.append('../doubly_linked_list')
+from doubly_linked_list import DoublyLinkedList
+
 class LRUCache:
     """
     Our LRUCache class keeps track of the max number of nodes it
@@ -7,7 +11,10 @@ class LRUCache:
     to every node stored in the cache.
     """
     def __init__(self, limit=10):
-        pass
+        self.current_size = 0
+        self.limit = limit
+        self.dll = DoublyLinkedList()
+        self.storage_dict = {}
 
     """
     Retrieves the value associated with the given key. Also
@@ -17,7 +24,13 @@ class LRUCache:
     key-value pair doesn't exist in the cache.
     """
     def get(self, key):
-        pass
+        if key in self.storage_dict:
+            node = self.storage_dict[key]
+            self.dll.move_to_front(node)
+            return node.value
+        else:
+            return None
+        
 
     """
     Adds the given key-value pair to the cache. The newly-
@@ -29,5 +42,30 @@ class LRUCache:
     want to overwrite the old value associated with the key with
     the newly-specified value.
     """
+
     def set(self, key, value):
-        pass
+        if key in self.storage_dict:
+            self.dll.move_to_front(self.storage_dict[key])
+            self.dll.head.value = value
+            self.storage_dict[key] = self.dll.head
+        elif self.current_size < self.limit:
+            self.current_size += 1
+            self.dll.add_to_head(value)
+            self.storage_dict[key] = self.dll.head
+        elif self.current_size == self.limit:
+            prev_tail = self.dll.tail
+            self.dll.remove_from_tail()
+            self.dll.add_to_head(value)
+            self.storage_dict[key] = self.dll.head
+            #TODO remove from dictionary
+            last_key = [k for k,v in self.storage_dict.items() if v == prev_tail]
+            last_key = last_key[0]
+            self.storage_dict.pop(last_key)
+    #is limit below max?
+    # is limit over max? 
+
+
+
+
+
+            
